@@ -20,12 +20,12 @@ sub _pfx($$) {
     return (-t $F ? colored($pfx, shift) : $pfx) . (($N or $L > 5) ? join(":", (caller(1))[1,2]) . " " : "");
 }
 
-sub log_fatal(&) { print $F _pfx('FATAL', $C->{FATAL} || 'bold red'), $_[0]->($_), "\n" if $L > -1 }
-sub log_error(&) { print $F _pfx('ERROR', $C->{ERROR} || 'red'),      $_[0]->($_), "\n" if $L >  0 }
-sub log_warn(&)  { print $F _pfx('WARN',  $C->{WARN}  || 'yellow'),   $_[0]->($_), "\n" if $L >  1 }
-sub log_info(&)  { print $F _pfx('INFO',  $C->{INFO}  || 'cyan'),     $_[0]->($_), "\n" if $L >  2 }
-sub log_debug(&) { print $F _pfx('DEBUG', $C->{DEBUG} || 'blue'),     $_[0]->($_), "\n" if $L >  3 }
-sub log_trace(&) { print $F _pfx('TRACE', $C->{TRACE} || 'magenta'),  $_[0]->($_), "\n" if $L >  4 }
+sub log_fatal(&) { print $F _pfx('FATAL', $C->{FATAL} || 'bold red'), $_[0]->($_), "\n" if $L > -2 }
+sub log_error(&) { print $F _pfx('ERROR', $C->{ERROR} || 'red'),      $_[0]->($_), "\n" if $L > -1 }
+sub log_warn(&)  { print $F _pfx('WARN',  $C->{WARN}  || 'yellow'),   $_[0]->($_), "\n" if $L >  0 }
+sub log_info(&)  { print $F _pfx('INFO',  $C->{INFO}  || 'cyan'),     $_[0]->($_), "\n" if $L >  1 }
+sub log_debug(&) { print $F _pfx('DEBUG', $C->{DEBUG} || 'blue'),     $_[0]->($_), "\n" if $L >  2 }
+sub log_trace(&) { print $F _pfx('TRACE', $C->{TRACE} || 'magenta'),  $_[0]->($_), "\n" if $L >  3 }
 
 1;
 
