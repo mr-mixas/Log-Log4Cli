@@ -6,8 +6,8 @@ use warnings;
 use Term::ANSIColor "colored";
 use parent "Exporter";
 
-our $VERSION = '0.02'; # Don't forget to change in pod below
-our @EXPORT = qw(log_fatal log_error log_warn log_info log_debug log_trace);
+our $VERSION = '0.03'; # Don't forget to change in pod below
+our @EXPORT = qw(die_fatal die_info log_fatal log_error log_warn log_info log_debug log_trace);
 
 our $C = {
     FATAL => 'bold red',
@@ -27,6 +27,22 @@ sub _pfx($) {
     return (-t $F ? colored($pfx, $C->{$_[0]}) : $pfx) . (($N or $L > 4) ? join(":", (caller(1))[1,2]) . " " : "");
 }
 
+sub die_fatal(;$;$) {
+    my ($msg, $code) = @_;
+    $msg = defined $msg ? "$msg. " : "";
+    $code = 127 unless (defined $code);
+    print $F _pfx('FATAL'), $msg, "Exit $code, ET ", (time - $^T), "s\n";
+    exit $code;
+}
+
+sub die_info(;$;$) {
+    my ($msg, $code) = @_;
+    $msg = defined $msg ? "$msg. " : "";
+    $code = 0 unless (defined $code);
+    print $F _pfx('INFO'), $msg, "Exit $code, ET ", (time - $^T), "s\n";
+    exit $code;
+}
+
 sub log_fatal(&) { print $F _pfx('FATAL'), $_[0]->($_), "\n" if $L > -2 }
 sub log_error(&) { print $F _pfx('ERROR'), $_[0]->($_), "\n" if $L > -1 }
 sub log_warn(&)  { print $F _pfx('WARN'),  $_[0]->($_), "\n" if $L >  0 }
@@ -44,7 +60,7 @@ Log::Log4Cli -- Lightweight perl logger for command line tools
 
 =head1 VERSION
 
-Version 0.02
+Version 0.03
 
 =head1 SYNOPSIS
 
@@ -58,13 +74,15 @@ Version 0.02
     log_error { "blah-blah, it's an error" };
     log_trace { "Guts:\n" . Dumper $struct }; # Dumper will be called only when TRACE level enabled
 
+    die_info 'All done', 0
+
 =head1 EXPORT
 
 =head2 Subrotines exported by default:
 
 =over 4
 
-=item log_fatal log_error log_warn log_info log_debug log_trace
+=item die_fatal die_info log_fatal log_error log_warn log_info log_debug log_trace
 
 =back
 
