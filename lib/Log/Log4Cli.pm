@@ -6,7 +6,7 @@ use warnings;
 use Term::ANSIColor "colored";
 use parent "Exporter";
 
-our $VERSION = '0.04'; # Don't forget to change in pod below
+our $VERSION = '0.05'; # Don't forget to change in pod below
 our @EXPORT = qw(die_fatal die_info log_fd log_fatal log_error log_warn log_info log_debug log_trace);
 
 our $C = {
@@ -31,17 +31,21 @@ sub _pfx($) {
 
 sub die_fatal(;$;$) {
     my ($msg, $code) = @_;
-    $msg = defined $msg ? "$msg. " : "";
     $code = 127 unless (defined $code);
-    print $F _pfx('FATAL'), $msg, "Exit $code, ET ", (time - $^T), "s\n";
+    if ($L > -2) {
+        $msg = defined $msg ? "$msg. " : "";
+        print $F _pfx('FATAL'), $msg, "Exit $code, ET ", (time - $^T), "s\n";
+    }
     exit $code;
 }
 
 sub die_info(;$;$) {
     my ($msg, $code) = @_;
-    $msg = defined $msg ? "$msg. " : "";
     $code = 0 unless (defined $code);
-    print $F _pfx('INFO'), $msg, "Exit $code, ET ", (time - $^T), "s\n";
+    if ($L > 1) {
+        $msg = defined $msg ? "$msg. " : "";
+        print $F _pfx('INFO'), $msg, "Exit $code, ET ", (time - $^T), "s\n";
+    }
     exit $code;
 }
 
@@ -70,7 +74,7 @@ Log::Log4Cli -- Lightweight perl logger for command line tools
 
 =head1 VERSION
 
-Version 0.04
+Version 0.05
 
 =head1 SYNOPSIS
 
