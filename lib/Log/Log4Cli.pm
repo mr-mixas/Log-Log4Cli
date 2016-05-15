@@ -6,7 +6,7 @@ use warnings;
 use Term::ANSIColor "colored";
 use parent "Exporter";
 
-our $VERSION = '0.05'; # Don't forget to change in pod below
+our $VERSION = '0.06'; # Don't forget to change in pod below
 our @EXPORT = qw(die_fatal die_info log_fd log_fatal log_error log_warn log_info log_debug log_trace);
 
 our $C = {
@@ -21,7 +21,7 @@ our $L = 0;
 our $N = undef;
 
 my $F = *STDERR;    # descriptor
-my $T = -t $F;      # term/noterm flag
+our $T = -t $F;     # color on/off switcher
 
 sub _pfx($) {
     my ($S, $M, $H, $d, $m, $y) = localtime(time);
@@ -74,7 +74,7 @@ Log::Log4Cli -- Lightweight perl logger for command line tools
 
 =head1 VERSION
 
-Version 0.05
+Version 0.06
 
 =head1 SYNOPSIS
 
@@ -86,6 +86,9 @@ Version 0.05
     log_fd(*STDOUT);                          # print to STDOUT (STDERR by default)
 
     log_error { "blah-blah, it's an error" };
+
+    $Log::Log4Cli::T = 0;                     # colors now disabled
+
     log_trace { "Guts:\n" . Dumper $struct }; # Dumper will be called only when TRACE level enabled
 
     die_info 'All done', 0
