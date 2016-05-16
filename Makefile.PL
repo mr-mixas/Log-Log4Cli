@@ -17,7 +17,9 @@ WriteMakefile(
     BUILD_REQUIRES => {
         'Test::More' => 0,
     },
-    PREREQ_PM => {},
+    PREREQ_PM => {
+        'parent'     => 0,
+    },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean => { FILES => 'Log-Log4Cli-*' },
 );
