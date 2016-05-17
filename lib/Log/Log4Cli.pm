@@ -3,10 +3,11 @@ package Log::Log4Cli;
 use 5.006;
 use strict;
 use warnings;
-use Term::ANSIColor "colored";
-use parent "Exporter";
+use Term::ANSIColor qw(colored);
+use parent qw(Exporter);
 
-our $VERSION = '0.06'; # Don't forget to change in pod below
+our $VERSION = '0.07'; # Don't forget to change in pod below
+
 our @EXPORT = qw(die_fatal die_info log_fd log_fatal log_error log_warn log_info log_debug log_trace);
 
 our $C = {
@@ -74,7 +75,7 @@ Log::Log4Cli -- Lightweight perl logger for command line tools
 
 =head1 VERSION
 
-Version 0.06
+Version 0.07
 
 =head1 SYNOPSIS
 
@@ -91,7 +92,7 @@ Version 0.06
 
     log_trace { "Guts:\n" . Dumper $struct }; # Dumper will be called only when TRACE level enabled
 
-    die_info 'All done', 0
+    die_info 'All done', 0                    # args optional
 
 =head1 EXPORT
 
@@ -99,7 +100,7 @@ Version 0.06
 
 =over 4
 
-=item die_fatal die_info log_fatal log_error log_warn log_info log_debug log_trace
+=item die_fatal die_info log_fd log_fatal log_error log_warn log_info log_debug log_trace
 
 =back
 
