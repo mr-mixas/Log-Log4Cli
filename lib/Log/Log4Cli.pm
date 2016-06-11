@@ -6,7 +6,7 @@ use warnings;
 use Term::ANSIColor qw(colored);
 use parent qw(Exporter);
 
-our $VERSION = '0.07'; # Don't forget to change in pod below
+our $VERSION = '0.08'; # Don't forget to change in pod below
 
 our @EXPORT = qw(die_fatal die_info log_fd log_fatal log_error log_warn log_info log_debug log_trace);
 
@@ -75,7 +75,7 @@ Log::Log4Cli -- Lightweight perl logger for command line tools
 
 =head1 VERSION
 
-Version 0.07
+Version 0.08
 
 =head1 SYNOPSIS
 
@@ -83,8 +83,8 @@ Version 0.07
 
     $Log::Log4Cli::C->{DEBUG} = 'green';      # redefine color
     $Log::Log4Cli::L = 5;                     # set loglevel
-    $Log::Log4Cli::N = 1;                     # force file:line indicators (also enables if loglevel > 4)
-    log_fd(*STDOUT);                          # print to STDOUT (STDERR by default)
+    $Log::Log4Cli::N = 1;                     # force file:line marks (also enables if loglevel > 4)
+    log_fd(\*STDOUT);                         # print to STDOUT (STDERR by default)
 
     log_error { "blah-blah, it's an error" };
 
@@ -96,13 +96,31 @@ Version 0.07
 
 =head1 EXPORT
 
-=head2 Subrotines exported by default:
+All subroutines described below exports by default.
 
-=over 4
+=head1 SUBROUTINES
 
-=item die_fatal die_info log_fd log_fatal log_error log_warn log_info log_debug log_trace
+=head2 log_fatal log_error log_warn log_info log_debug log_trace
 
-=back
+    log_(fatal|error|warn|info|debug|trace) { "This is a log message" };
+
+Execute passed code block and write it's return value if loglevel permit so. Set $Log::Log4Cli::T to false value
+if you want to disable colors.
+
+=head2 log_fd
+
+Get/Set file descriptor for log messages. STDERR is used by default.
+
+=head2 die_fatal die_info
+
+    die_fatal("Something went wrong!", 8);
+
+Log message and die with provided exid code. All arguments are optional. If second arg (exit code) omitted
+die_info and die_fatal will use 0 and 127 respectively.
+
+=head1 SEE ALSO
+
+L<Term::ANSIColor|Term::ANSIColor>
 
 =head1 LICENSE AND COPYRIGHT
 
