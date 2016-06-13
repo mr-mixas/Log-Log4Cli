@@ -17,6 +17,11 @@ WriteMakefile(
     BUILD_REQUIRES => {
         'Test::More' => 0,
     },
+    META_MERGE => {
+        resources => {
+            repository  => 'https://github.com/mr-mixas/Log-Log4Cli.pm',
+        },
+    },
     PREREQ_PM => {
         'parent'     => 0,
     },
