@@ -3,20 +3,35 @@ package Log::Log4Cli;
 use 5.006;
 use strict;
 use warnings;
-use Term::ANSIColor qw(colored);
 use parent qw(Exporter);
 
-our $VERSION = '0.08'; # Don't forget to change in pod below
+use Term::ANSIColor qw(colored);
 
-our @EXPORT = qw(die_fatal die_info log_fd log_fatal log_error log_warn log_info log_debug log_trace);
+our $VERSION = '0.09'; # Don't forget to change in pod below
+
+our @EXPORT = qw(
+    die_fatal
+    die_info
+    die_notice
+
+    log_fd
+
+    log_fatal
+    log_error
+    log_warn
+    log_info
+    log_debug
+    log_trace
+);
 
 our $C = {
-    FATAL => 'bold red',
-    ERROR => 'red',
-    WARN  => 'yellow',
-    INFO  => 'cyan',
-    DEBUG => 'blue',
-    TRACE => 'magenta'
+    FATAL  => 'bold red',
+    ERROR  => 'red',
+    WARN   => 'yellow',
+    NOTICE => 'bold yellow',
+    INFO   => 'cyan',
+    DEBUG  => 'blue',
+    TRACE  => 'magenta'
 };
 our $L = 0;
 our $N = undef;
@@ -26,7 +41,7 @@ our $T = -t $F;     # color on/off switcher
 
 sub _pfx($) {
     my ($S, $M, $H, $d, $m, $y) = localtime(time);
-    my $pfx = sprintf "[%04i-%02i-%02i %02i:%02i:%02i %i %5s] ", $y + 1900, $m + 1, $d, $H, $M, $S, $$, $_[0];
+    my $pfx = sprintf "[%04i-%02i-%02i %02i:%02i:%02i %i %6s] ", $y + 1900, $m + 1, $d, $H, $M, $S, $$, $_[0];
     return ($T ? colored($pfx, $C->{$_[0]}) : $pfx) . (($N or $L > 4) ? join(":", (caller(1))[1,2]) . " " : "");
 }
 
@@ -46,6 +61,16 @@ sub die_info(;$;$) {
     if ($L > 1) {
         $msg = defined $msg ? "$msg. " : "";
         print $F _pfx('INFO'), $msg, "Exit $code, ET ", (time - $^T), "s\n";
+    }
+    exit $code;
+}
+
+sub die_notice(;$;$) {
+    my ($msg, $code) = @_;
+    $code = 0 unless (defined $code);
+    if ($L > -1) {
+        $msg = defined $msg ? "$msg. " : "";
+        print $F _pfx('NOTICE'), $msg, "Exit $code, ET ", (time - $^T), "s\n";
     }
     exit $code;
 }
@@ -75,7 +100,7 @@ Log::Log4Cli -- Lightweight perl logger for command line tools
 
 =head1 VERSION
 
-Version 0.08
+Version 0.09
 
 =head1 SYNOPSIS
 
@@ -100,7 +125,15 @@ All subroutines described below exports by default.
 
 =head1 SUBROUTINES
 
-=head2 log_fatal log_error log_warn log_info log_debug log_trace
+=head2 die_fatal, die_info, die_notice
+
+    die_fatal("Something went wrong!", 8);
+
+Log message and die with provided exid code. All arguments are optional. If second arg (exit code) omitted
+die_info, die_notice and die_fatal will use 0, 0 and 127 respectively. die_notice() activated on the same level
+with ERROR, but use different color (bold yellow) and own exit code (0).
+
+=head2 log_fatal, log_error, log_warn, log_info, log_debug, log_trace
 
     log_(fatal|error|warn|info|debug|trace) { "This is a log message" };
 
@@ -110,13 +143,6 @@ if you want to disable colors.
 =head2 log_fd
 
 Get/Set file descriptor for log messages. STDERR is used by default.
-
-=head2 die_fatal die_info
-
-    die_fatal("Something went wrong!", 8);
-
-Log message and die with provided exid code. All arguments are optional. If second arg (exit code) omitted
-die_info and die_fatal will use 0 and 127 respectively.
 
 =head1 SEE ALSO
 
