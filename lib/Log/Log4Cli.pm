@@ -27,8 +27,8 @@ our @EXPORT = qw(
 our $C = {
     FATAL  => 'bold red',
     ERROR  => 'red',
+    NOTICE => 'bold green',
     WARN   => 'yellow',
-    NOTICE => 'bold yellow',
     INFO   => 'cyan',
     DEBUG  => 'blue',
     TRACE  => 'magenta'
@@ -130,8 +130,8 @@ All subroutines described below exports by default.
     die_fatal("Something went wrong!", 8);
 
 Log message and die with provided exid code. All arguments are optional. If second arg (exit code) omitted
-die_info, die_notice and die_fatal will use 0, 0 and 127 respectively. die_notice() activated on the same level
-with ERROR, but use different color (bold yellow) and own exit code (0).
+die_info, die_notice and die_fatal will use 0, 0 and 127 respectively. die_notice() is almost the same as die_info(),
+but it's logging activated on ERROR level and use 'bold green' as prefix color.
 
 =head2 log_fatal, log_error, log_warn, log_info, log_debug, log_trace
 
