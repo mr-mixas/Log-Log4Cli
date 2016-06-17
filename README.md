@@ -4,7 +4,7 @@ Log::Log4Cli -- Lightweight perl logger for command line tools
 
 # VERSION
 
-Version 0.08
+Version 0.09
 
 # SYNOPSIS
 
@@ -29,7 +29,15 @@ All subroutines described below exports by default.
 
 # SUBROUTINES
 
-## log\_fatal log\_error log\_warn log\_info log\_debug log\_trace
+## die\_fatal, die\_info, die\_notice
+
+    die_fatal("Something went wrong!", 8);
+
+Log message and die with provided exid code. All arguments are optional. If second arg (exit code) omitted
+die\_info, die\_notice and die\_fatal will use 0, 0 and 127 respectively. die\_notice() is almost the same as die\_info(),
+but it's logging activated on ERROR level and use 'bold green' as prefix color.
+
+## log\_fatal, log\_error, log\_warn, log\_info, log\_debug, log\_trace
 
     log_(fatal|error|warn|info|debug|trace) { "This is a log message" };
 
@@ -39,13 +47,6 @@ if you want to disable colors.
 ## log\_fd
 
 Get/Set file descriptor for log messages. STDERR is used by default.
-
-## die\_fatal die\_info
-
-    die_fatal("Something went wrong!", 8);
-
-Log message and die with provided exid code. All arguments are optional. If second arg (exit code) omitted
-die\_info and die\_fatal will use 0 and 127 respectively.
 
 # SEE ALSO
 
