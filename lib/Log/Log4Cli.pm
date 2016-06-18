@@ -130,14 +130,14 @@ All subroutines described below exports by default.
     die_fatal("Something went wrong!", 8);
 
 Log message and die with provided exid code. All arguments are optional. If second arg (exit code) omitted
-die_info, die_notice and die_fatal will use 0, 0 and 127 respectively. die_notice() is almost the same as die_info(),
+die_info, die_notice and die_fatal will use 0, 0 and 127 respectively. C<die_notice()> is almost the same as C<die_info()>,
 but it's logging activated on ERROR level and use 'bold green' as prefix color.
 
 =head2 log_fatal, log_error, log_warn, log_info, log_debug, log_trace
 
     log_(fatal|error|warn|info|debug|trace) { "This is a log message" };
 
-Execute passed code block and write it's return value if loglevel permit so. Set $Log::Log4Cli::T to false value
+Execute passed code block and write it's return value if loglevel permit so. Set C<$Log::Log4Cli::T> to false value
 if you want to disable colors.
 
 =head2 log_fd
