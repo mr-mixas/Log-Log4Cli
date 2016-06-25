@@ -7,7 +7,7 @@ use parent qw(Exporter);
 
 use Term::ANSIColor qw(colored);
 
-our $VERSION = '0.09'; # Don't forget to change in pod below
+our $VERSION = '0.10'; # Don't forget to change in pod below
 
 our @EXPORT = qw(
     die_fatal
@@ -24,7 +24,7 @@ our @EXPORT = qw(
     log_trace
 );
 
-our $C = {
+our $COLORS = {
     FATAL  => 'bold red',
     ERROR  => 'red',
     NOTICE => 'bold green',
@@ -33,61 +33,42 @@ our $C = {
     DEBUG  => 'blue',
     TRACE  => 'magenta'
 };
-our $L = 0;
-our $N = undef;
+our $LEVEL = 0;
+our $POSITIONS = undef;
+my $FD = \*STDERR;       # descriptor
+our $COLOR = -t $FD;     # color on/off switcher
 
-my $F = *STDERR;    # descriptor
-our $T = -t $F;     # color on/off switcher
+sub _die($$$$) {
+    print $FD $_[2] . (defined $_[3] ? "$_[3]. " : "") .
+        "Exit $_[0], ET ", (time - $^T), "s\n" if ($_[1]);
+    exit $_[0];
+}
 
 sub _pfx($) {
     my ($S, $M, $H, $d, $m, $y) = localtime(time);
-    my $pfx = sprintf "[%04i-%02i-%02i %02i:%02i:%02i %i %6s] ", $y + 1900, $m + 1, $d, $H, $M, $S, $$, $_[0];
-    return ($T ? colored($pfx, $C->{$_[0]}) : $pfx) . (($N or $L > 4) ? join(":", (caller(1))[1,2]) . " " : "");
+    my $pfx = sprintf "[%04i-%02i-%02i %02i:%02i:%02i %i %6s] ",
+        $y + 1900, $m + 1, $d, $H, $M, $S, $$, $_[0];
+    return ($COLOR ? colored($pfx, $COLORS->{$_[0]}) : $pfx) .
+        (($POSITIONS or $LEVEL > 4) ? join(":", (caller(1))[1,2]) . " " : "");
 }
 
-sub die_fatal(;$;$) {
-    my ($msg, $code) = @_;
-    $code = 127 unless (defined $code);
-    if ($L > -2) {
-        $msg = defined $msg ? "$msg. " : "";
-        print $F _pfx('FATAL'), $msg, "Exit $code, ET ", (time - $^T), "s\n";
-    }
-    exit $code;
-}
+sub die_fatal(;$;$)  { _die $_[1] || 127, $LEVEL > -2, _pfx('FATAL'),  $_[0] }
+sub die_notice(;$;$) { _die $_[1] || 0,   $LEVEL > -1, _pfx('NOTICE'), $_[0] }
+sub die_info(;$;$)   { _die $_[1] || 0,   $LEVEL >  1, _pfx('INFO'),   $_[0] }
 
-sub die_info(;$;$) {
-    my ($msg, $code) = @_;
-    $code = 0 unless (defined $code);
-    if ($L > 1) {
-        $msg = defined $msg ? "$msg. " : "";
-        print $F _pfx('INFO'), $msg, "Exit $code, ET ", (time - $^T), "s\n";
-    }
-    exit $code;
-}
-
-sub die_notice(;$;$) {
-    my ($msg, $code) = @_;
-    $code = 0 unless (defined $code);
-    if ($L > -1) {
-        $msg = defined $msg ? "$msg. " : "";
-        print $F _pfx('NOTICE'), $msg, "Exit $code, ET ", (time - $^T), "s\n";
-    }
-    exit $code;
-}
-
-sub log_fatal(&) { print $F _pfx('FATAL'), $_[0]->($_), "\n" if $L > -2 }
-sub log_error(&) { print $F _pfx('ERROR'), $_[0]->($_), "\n" if $L > -1 }
-sub log_warn(&)  { print $F _pfx('WARN'),  $_[0]->($_), "\n" if $L >  0 }
-sub log_info(&)  { print $F _pfx('INFO'),  $_[0]->($_), "\n" if $L >  1 }
-sub log_debug(&) { print $F _pfx('DEBUG'), $_[0]->($_), "\n" if $L >  2 }
-sub log_trace(&) { print $F _pfx('TRACE'), $_[0]->($_), "\n" if $L >  3 }
+sub log_fatal(&) { print $FD _pfx('FATAL'), $_[0]->($_), "\n" if $LEVEL > -2 }
+sub log_error(&) { print $FD _pfx('ERROR'), $_[0]->($_), "\n" if $LEVEL > -1 }
+sub log_warn(&)  { print $FD _pfx('WARN'),  $_[0]->($_), "\n" if $LEVEL >  0 }
+sub log_info(&)  { print $FD _pfx('INFO'),  $_[0]->($_), "\n" if $LEVEL >  1 }
+sub log_debug(&) { print $FD _pfx('DEBUG'), $_[0]->($_), "\n" if $LEVEL >  2 }
+sub log_trace(&) { print $FD _pfx('TRACE'), $_[0]->($_), "\n" if $LEVEL >  3 }
 
 sub log_fd(;$) {
     if (@_) {
-        $F = shift;
-        $T = -t $F;
+        $FD = shift;
+        $COLOR = -t $FD;
     }
-    return $F;
+    return $FD;
 }
 
 1;
@@ -100,20 +81,20 @@ Log::Log4Cli -- Lightweight perl logger for command line tools
 
 =head1 VERSION
 
-Version 0.09
+Version 0.10
 
 =head1 SYNOPSIS
 
     Log::Log4Cli;
 
-    $Log::Log4Cli::C->{DEBUG} = 'green';      # redefine color
-    $Log::Log4Cli::L = 5;                     # set loglevel
-    $Log::Log4Cli::N = 1;                     # force file:line marks (also enables if loglevel > 4)
+    $Log::Log4Cli::COLORS->{DEBUG} = 'green'; # redefine color
+    $Log::Log4Cli::LEVEL = 5;                 # set loglevel
+    $Log::Log4Cli::POSITIONS = 1;             # force file:line marks (also enables if loglevel > 4)
     log_fd(\*STDOUT);                         # print to STDOUT (STDERR by default)
 
     log_error { "blah-blah, it's an error" };
 
-    $Log::Log4Cli::T = 0;                     # colors now disabled
+    $Log::Log4Cli::COLOR = 0;                 # now colors disabled
 
     log_trace { "Guts:\n" . Dumper $struct }; # Dumper will be called only when TRACE level enabled
 
@@ -137,12 +118,12 @@ but it's logging activated on ERROR level and use 'bold green' as prefix color.
 
     log_(fatal|error|warn|info|debug|trace) { "This is a log message" };
 
-Execute passed code block and write it's return value if loglevel permit so. Set C<$Log::Log4Cli::T> to false value
+Execute passed code block and write it's return value if loglevel permit so. Set C<$Log::Log4Cli::COLOR> to false value
 if you want to disable colors.
 
 =head2 log_fd
 
-Get/Set file descriptor for log messages. STDERR is used by default.
+Get/Set file descriptor for log messages. C<STDERR> is used by default.
 
 =head1 SEE ALSO
 
