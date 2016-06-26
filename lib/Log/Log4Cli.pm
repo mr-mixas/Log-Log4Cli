@@ -157,7 +157,7 @@ Only builtin loglevels supported. Here they are:
     DEBUG        3      'blue',
     TRACE        4      'magenta'
 
-Colors may be changed, see L<SYNOPSIS>.
+Colors may be changed, see L</SYNOPSIS>.
 
 =head1 SEE ALSO
 

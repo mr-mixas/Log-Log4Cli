@@ -32,7 +32,7 @@ All subroutines described below exports by default.
 
 ## die\_fatal, die\_info, die\_notice
 
-    die_fatal "Something went wrong!", 8;
+    die_fatal "Something terrible happened", 8;
 
 Log message and die with provided exid code. All arguments are optional. If second arg (exit code) omitted
 die\_info, die\_notice and die\_fatal will use 0, 0 and 127 respectively.
@@ -46,7 +46,7 @@ and $@ as log message will be used if second and third arguments omitted.
 
 ## log\_fatal, log\_error, log\_notice, log\_warn, log\_info, log\_debug, log\_trace
 
-    log_(fatal|error|notice|warn|info|debug|trace) { "This is a log message" };
+    log_error { "Something went wrong!" };
 
 Execute passed code block and write it's return value if loglevel permit so. Set `$Log::Log4Cli::COLOR` to false value
 if you want to disable colors.
@@ -67,6 +67,8 @@ Only builtin loglevels supported. Here they are:
     INFO         2      'cyan',
     DEBUG        3      'blue',
     TRACE        4      'magenta'
+
+Colors may be changed, see ["SYNOPSIS"](#synopsis).
 
 # SEE ALSO
 
