@@ -121,7 +121,7 @@ All subroutines described below exports by default.
 
 =head2 die_fatal, die_info, die_notice
 
-    die_fatal "Something went wrong!", 8;
+    die_fatal "Something terrible happened", 8;
 
 Log message and die with provided exid code. All arguments are optional. If second arg (exit code) omitted
 die_info, die_notice and die_fatal will use 0, 0 and 127 respectively.
@@ -135,7 +135,7 @@ and $@ as log message will be used if second and third arguments omitted.
 
 =head2 log_fatal, log_error, log_notice, log_warn, log_info, log_debug, log_trace
 
-    log_(fatal|error|notice|warn|info|debug|trace) { "This is a log message" };
+    log_error { "Something went wrong!" };
 
 Execute passed code block and write it's return value if loglevel permit so. Set C<$Log::Log4Cli::COLOR> to false value
 if you want to disable colors.
@@ -156,6 +156,8 @@ Only builtin loglevels supported. Here they are:
     INFO         2      'cyan',
     DEBUG        3      'blue',
     TRACE        4      'magenta'
+
+Colors may be changed, see L<SYNOPSIS>.
 
 =head1 SEE ALSO
 
