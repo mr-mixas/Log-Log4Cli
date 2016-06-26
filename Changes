@@ -1,5 +1,9 @@
 Revision history for Log-Log4Cli
 
+0.10    2016-06-26
+        log_notice() added
+        refactoring
+
 0.09    2016-06-17
         die_notice() added
 
