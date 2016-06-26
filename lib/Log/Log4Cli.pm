@@ -18,6 +18,7 @@ our @EXPORT = qw(
 
     log_fatal
     log_error
+    log_notice
     log_warn
     log_info
     log_debug
@@ -56,12 +57,13 @@ sub die_fatal(;$;$)  { _die $_[1] || 127, $LEVEL > -2, _pfx('FATAL'),  $_[0] }
 sub die_notice(;$;$) { _die $_[1] || 0,   $LEVEL > -1, _pfx('NOTICE'), $_[0] }
 sub die_info(;$;$)   { _die $_[1] || 0,   $LEVEL >  1, _pfx('INFO'),   $_[0] }
 
-sub log_fatal(&) { print $FD _pfx('FATAL'), $_[0]->($_), "\n" if $LEVEL > -2 }
-sub log_error(&) { print $FD _pfx('ERROR'), $_[0]->($_), "\n" if $LEVEL > -1 }
-sub log_warn(&)  { print $FD _pfx('WARN'),  $_[0]->($_), "\n" if $LEVEL >  0 }
-sub log_info(&)  { print $FD _pfx('INFO'),  $_[0]->($_), "\n" if $LEVEL >  1 }
-sub log_debug(&) { print $FD _pfx('DEBUG'), $_[0]->($_), "\n" if $LEVEL >  2 }
-sub log_trace(&) { print $FD _pfx('TRACE'), $_[0]->($_), "\n" if $LEVEL >  3 }
+sub log_fatal(&)  { print $FD _pfx('FATAL'),  $_[0]->($_), "\n" if $LEVEL > -2 }
+sub log_error(&)  { print $FD _pfx('ERROR'),  $_[0]->($_), "\n" if $LEVEL > -1 }
+sub log_notice(&) { print $FD _pfx('NOTICE'), $_[0]->($_), "\n" if $LEVEL > -1 }
+sub log_warn(&)   { print $FD _pfx('WARN'),   $_[0]->($_), "\n" if $LEVEL >  0 }
+sub log_info(&)   { print $FD _pfx('INFO'),   $_[0]->($_), "\n" if $LEVEL >  1 }
+sub log_debug(&)  { print $FD _pfx('DEBUG'),  $_[0]->($_), "\n" if $LEVEL >  2 }
+sub log_trace(&)  { print $FD _pfx('TRACE'),  $_[0]->($_), "\n" if $LEVEL >  3 }
 
 sub log_fd(;$) {
     if (@_) {
@@ -111,12 +113,11 @@ All subroutines described below exports by default.
     die_fatal("Something went wrong!", 8);
 
 Log message and die with provided exid code. All arguments are optional. If second arg (exit code) omitted
-die_info, die_notice and die_fatal will use 0, 0 and 127 respectively. C<die_notice()> is almost the same as C<die_info()>,
-but it's logging activated on ERROR level and use 'bold green' as prefix color.
+die_info, die_notice and die_fatal will use 0, 0 and 127 respectively.
 
-=head2 log_fatal, log_error, log_warn, log_info, log_debug, log_trace
+=head2 log_fatal, log_error, log_notice, log_warn, log_info, log_debug, log_trace
 
-    log_(fatal|error|warn|info|debug|trace) { "This is a log message" };
+    log_(fatal|error|notice|warn|info|debug|trace) { "This is a log message" };
 
 Execute passed code block and write it's return value if loglevel permit so. Set C<$Log::Log4Cli::COLOR> to false value
 if you want to disable colors.
@@ -124,6 +125,19 @@ if you want to disable colors.
 =head2 log_fd
 
 Get/Set file descriptor for log messages. C<STDERR> is used by default.
+
+=head1 LOG LEVELS
+
+Only builtin loglevels supported. Here they are:
+
+    # LEVEL     VALUE   COLOR
+    FATAL       -2      'bold red',
+    ERROR       -1      'red',
+    NOTICE      -1      'bold green',
+    WARN         1      'yellow',
+    INFO         2      'cyan',
+    DEBUG        3      'blue',
+    TRACE        4      'magenta'
 
 =head1 SEE ALSO
 
