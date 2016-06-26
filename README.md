@@ -13,6 +13,7 @@ Version 0.10
     $Log::Log4Cli::COLORS->{DEBUG} = 'green'; # redefine color
     $Log::Log4Cli::LEVEL = 5;                 # set loglevel
     $Log::Log4Cli::POSITIONS = 1;             # force file:line marks (also enables if loglevel > 4)
+
     log_fd(\*STDOUT);                         # print to STDOUT (STDERR by default)
 
     log_error { "blah-blah, it's an error" };
@@ -31,10 +32,17 @@ All subroutines described below exports by default.
 
 ## die\_fatal, die\_info, die\_notice
 
-    die_fatal("Something went wrong!", 8);
+    die_fatal "Something went wrong!", 8;
 
 Log message and die with provided exid code. All arguments are optional. If second arg (exit code) omitted
 die\_info, die\_notice and die\_fatal will use 0, 0 and 127 respectively.
+
+## eval\_fatal
+
+    eval_fatal { ... } $exit_code, $alt_error_msg;
+
+Eval code and exit with fatal message if eval not successful. Only first argument is obligatory. 127 as exit code
+and $@ as log message will be used if second and third arguments omitted.
 
 ## log\_fatal, log\_error, log\_notice, log\_warn, log\_info, log\_debug, log\_trace
 
