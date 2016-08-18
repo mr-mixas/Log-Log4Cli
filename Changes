@@ -1,5 +1,9 @@
 Revision history for Log-Log4Cli
 
+0.11    2016-08-18
+        Docs corrected
+        loglevel tests added
+
 0.10    2016-06-26
         eval_fatal() and log_notice() added
         refactoring

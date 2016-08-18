@@ -7,7 +7,7 @@ use parent qw(Exporter);
 
 use Term::ANSIColor qw(colored);
 
-our $VERSION = '0.10'; # Don't forget to change in pod below
+our $VERSION = '0.11'; # Don't forget to change in pod below
 
 our @EXPORT = qw(
     die_fatal
@@ -93,14 +93,14 @@ Log::Log4Cli -- Lightweight perl logger for command line tools
 
 =head1 VERSION
 
-Version 0.10
+Version 0.11
 
 =head1 SYNOPSIS
 
     Log::Log4Cli;
 
     $Log::Log4Cli::COLORS->{DEBUG} = 'green'; # redefine color
-    $Log::Log4Cli::LEVEL = 5;                 # set loglevel
+    $Log::Log4Cli::LEVEL = 4;                 # set max loglevel
     $Log::Log4Cli::POSITIONS = 1;             # force file:line marks (also enables if loglevel > 4)
 
     log_fd(\*STDOUT);                         # print to STDOUT (STDERR by default)
@@ -149,9 +149,9 @@ Get/Set file descriptor for log messages. C<STDERR> is used by default.
 Only builtin loglevels supported. Here they are:
 
     # LEVEL     VALUE   COLOR
-    FATAL       -2      'bold red',
-    ERROR       -1      'red',
-    NOTICE      -1      'bold green',
+    FATAL       -1      'bold red',
+    ERROR        0      'red',
+    NOTICE       0      'bold green',
     WARN         1      'yellow',
     INFO         2      'cyan',
     DEBUG        3      'blue',
