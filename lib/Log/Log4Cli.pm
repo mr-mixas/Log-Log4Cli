@@ -115,7 +115,7 @@ Version 0.11
 
 =head1 EXPORT
 
-All subroutines described below exports by default.
+All subroutines described below are exported by default.
 
 =head1 SUBROUTINES
 
