@@ -6,6 +6,7 @@ README
 t/00-load.t
 t/10-levels.t
 t/20-fd.t
+t/30-colors.t
 t/_common.pm
 t/manifest.t
 t/pod-coverage.t
