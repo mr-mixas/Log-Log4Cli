@@ -7,14 +7,12 @@ use parent qw(Exporter);
 
 use Term::ANSIColor qw(colored);
 
-our $VERSION = '0.11'; # Don't forget to change in pod below
+our $VERSION = '0.12'; # Don't forget to change in pod below
 
 our @EXPORT = qw(
     die_fatal
     die_info
     die_notice
-
-    eval_fatal
 
     log_fd
 
@@ -59,14 +57,6 @@ sub die_fatal(;$;$)  { _die $_[1] || 127, $LEVEL > -2, _pfx('FATAL'),  $_[0] }
 sub die_notice(;$;$) { _die $_[1] || 0,   $LEVEL > -1, _pfx('NOTICE'), $_[0] }
 sub die_info(;$;$)   { _die $_[1] || 0,   $LEVEL >  1, _pfx('INFO'),   $_[0] }
 
-sub eval_fatal(&;$;$) {
-    my $out = eval { $_[0]->() };
-    if ($@) {
-        _die $_[1] || 127, $LEVEL > -2, _pfx('FATAL'), defined $_[2] ? $_[2] : $@;
-    }
-    return $out;
-}
-
 sub log_fatal(&)  { print $FD _pfx('FATAL'),  $_[0]->($_), "\n" if $LEVEL > -2 }
 sub log_error(&)  { print $FD _pfx('ERROR'),  $_[0]->($_), "\n" if $LEVEL > -1 }
 sub log_notice(&) { print $FD _pfx('NOTICE'), $_[0]->($_), "\n" if $LEVEL > -1 }
@@ -93,7 +83,7 @@ Log::Log4Cli -- Lightweight perl logger for command line tools
 
 =head1 VERSION
 
-Version 0.11
+Version 0.12
 
 =head1 SYNOPSIS
 
@@ -125,13 +115,6 @@ All subroutines described below are exported by default.
 
 Log message and die with provided exid code. All arguments are optional. If second arg (exit code) omitted
 die_info, die_notice and die_fatal will use 0, 0 and 127 respectively.
-
-=head2 eval_fatal
-
-    eval_fatal { ... } $exit_code, $alt_error_msg;
-
-Eval code and exit with fatal message if eval not successful. Only first argument is obligatory. 127 as exit code
-and $@ as log message will be used if second and third arguments omitted.
 
 =head2 log_fatal, log_error, log_notice, log_warn, log_info, log_debug, log_trace
 

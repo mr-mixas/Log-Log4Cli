@@ -4,7 +4,7 @@ Log::Log4Cli -- Lightweight perl logger for command line tools
 
 # VERSION
 
-Version 0.11
+Version 0.12
 
 # SYNOPSIS
 
@@ -26,7 +26,7 @@ Version 0.11
 
 # EXPORT
 
-All subroutines described below exports by default.
+All subroutines described below are exported by default.
 
 # SUBROUTINES
 
@@ -36,13 +36,6 @@ All subroutines described below exports by default.
 
 Log message and die with provided exid code. All arguments are optional. If second arg (exit code) omitted
 die\_info, die\_notice and die\_fatal will use 0, 0 and 127 respectively.
-
-## eval\_fatal
-
-    eval_fatal { ... } $exit_code, $alt_error_msg;
-
-Eval code and exit with fatal message if eval not successful. Only first argument is obligatory. 127 as exit code
-and $@ as log message will be used if second and third arguments omitted.
 
 ## log\_fatal, log\_error, log\_notice, log\_warn, log\_info, log\_debug, log\_trace
 

@@ -16,6 +16,7 @@ WriteMakefile(
     },
     BUILD_REQUIRES => {
         'Capture::Tiny'     => 0,
+        'Term::ANSIColor'   => 0,
         'Test::More'        => 0,
     },
     META_MERGE => {
