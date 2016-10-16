@@ -1,5 +1,8 @@
 Revision history for Log-Log4Cli
 
+0.14    2016-10-16
+        pod corrected
+
 0.13    2016-10-16
         tests corrected (win must pass as well)
         docs slightly corrected

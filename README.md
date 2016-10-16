@@ -4,13 +4,13 @@ Log::Log4Cli -- Lightweight perl logger for command line tools
 
 # VERSION
 
-Version 0.13
+Version 0.14
 
 # SYNOPSIS
 
     Log::Log4Cli;
 
-    $Log::Log4Cli::COLORS->{DEBUG} = 'green'; # redefine color (L<Term::ANSIColor|Term::ANSIColor> notation)
+    $Log::Log4Cli::COLORS->{DEBUG} = 'green'; # redefine color (Term::ANSIColor notation)
     $Log::Log4Cli::LEVEL = 4;                 # set loglevel
     $Log::Log4Cli::POSITIONS = 1;             # force file:line marks (also enables if loglevel > 4)
 
