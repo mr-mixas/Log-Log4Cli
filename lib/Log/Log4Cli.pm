@@ -7,7 +7,7 @@ use parent qw(Exporter);
 
 use Term::ANSIColor qw(colored);
 
-our $VERSION = '0.12'; # Don't forget to change in pod below
+our $VERSION = '0.13'; # Don't forget to change in pod below
 
 our @EXPORT = qw(
     die_fatal
@@ -83,14 +83,14 @@ Log::Log4Cli -- Lightweight perl logger for command line tools
 
 =head1 VERSION
 
-Version 0.12
+Version 0.13
 
 =head1 SYNOPSIS
 
     Log::Log4Cli;
 
-    $Log::Log4Cli::COLORS->{DEBUG} = 'green'; # redefine color
-    $Log::Log4Cli::LEVEL = 4;                 # set max loglevel
+    $Log::Log4Cli::COLORS->{DEBUG} = 'green'; # redefine color (L<Term::ANSIColor|Term::ANSIColor> notation)
+    $Log::Log4Cli::LEVEL = 4;                 # set loglevel
     $Log::Log4Cli::POSITIONS = 1;             # force file:line marks (also enables if loglevel > 4)
 
     log_fd(\*STDOUT);                         # print to STDOUT (STDERR by default)
