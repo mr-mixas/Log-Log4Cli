@@ -4,7 +4,7 @@ Log::Log4Cli -- Lightweight perl logger for command line tools
 
 # VERSION
 
-Version 0.14
+Version 0.15
 
 # SYNOPSIS
 
@@ -55,7 +55,7 @@ Only builtin loglevels supported. Here they are:
     # LEVEL     VALUE   COLOR
     FATAL       -1      'bold red',
     ERROR        0      'red',
-    NOTICE       0      'bold green',
+    NOTICE       0      'bold white',
     WARN         1      'yellow',
     INFO         2      'cyan',
     DEBUG        3      'blue',
@@ -69,7 +69,7 @@ Colors may be changed, see ["SYNOPSIS"](#synopsis).
 
 # LICENSE AND COPYRIGHT
 
-Copyright 2016 Michael Samoglyadov.
+Copyright 2016,2017 Michael Samoglyadov.
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of either: the GNU General Public License as published

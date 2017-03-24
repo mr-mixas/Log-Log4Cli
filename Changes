@@ -1,5 +1,8 @@
 Revision history for Log-Log4Cli
 
+0.15    2017-03-24
+        color for notice changed to bold white
+
 0.14    2016-10-16
         pod corrected
 
