@@ -104,7 +104,11 @@ Version 0.16
 
     $Log::Log4Cli::COLOR = 0;                 # now colors disabled
 
-    log_trace { "Guts:\n" . Dumper $struct }; # Dumper will be called only when TRACE level enabled
+    my $guts = { some => "value" };
+    log_trace {                               # block will be called only when TRACE level enabled
+        require Data::Dumper;
+        return "Guts:\n" . Data::Dumper->Dump([$guts]);
+    };
 
     die_info 'All done', 0                    # args optional
 
