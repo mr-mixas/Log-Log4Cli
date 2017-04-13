@@ -4,7 +4,7 @@ Log::Log4Cli -- Lightweight perl logger for command line tools
 
 # VERSION
 
-Version 0.15
+Version 0.16
 
 # SYNOPSIS
 

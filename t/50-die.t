@@ -17,4 +17,24 @@ for my $lvl_name (qw(FATAL INFO NOTICE)) {
     }
 }
 
+eval { die_fatal "evaled die_fatal test" };
+like($@, qr/^evaled die_fatal test/);
+
+eval { die_info "evaled die_info test" };
+like($@, qr/^evaled die_info test/);
+
+eval { die_notice "evaled die_notice test" };
+like($@, qr/^evaled die_notice test/);
+
+$Log::Log4Cli::LEVEL = 0;
+
+eval { die_fatal undef, 1 };
+like($@, qr/^Died at/);
+
+eval { die_info undef, 1 };
+like($@, qr/^Died at/);
+
+eval { die_notice undef, 1 };
+like($@, qr/^Died at/);
+
 done_testing();

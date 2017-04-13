@@ -7,7 +7,7 @@ use parent qw(Exporter);
 
 use Term::ANSIColor qw(colored);
 
-our $VERSION = '0.15'; # Don't forget to change in pod below
+our $VERSION = '0.16'; # Don't forget to change in pod below
 
 our @EXPORT = qw(
     die_fatal
@@ -40,9 +40,14 @@ my $FD = \*STDERR;       # descriptor
 our $COLOR = -t $FD;     # color on/off switcher
 
 sub _die($$$$) {
-    print $FD $_[2] . (defined $_[3] ? "$_[3]. " : "") .
-        "Exit $_[0], ET ", (time - $^T), "s\n" if ($_[1]);
-    exit $_[0];
+    if ($^S) {
+        # inside eval block
+        die defined $_[3] ? "$_[3]. " : "";
+    } else {
+        print $FD $_[2] . (defined $_[3] ? "$_[3]. " : "") .
+            "Exit $_[0], ET ", (time - $^T), "s\n" if ($_[1]);
+        exit $_[0];
+    }
 }
 
 sub _pfx($) {
@@ -83,7 +88,7 @@ Log::Log4Cli -- Lightweight perl logger for command line tools
 
 =head1 VERSION
 
-Version 0.15
+Version 0.16
 
 =head1 SYNOPSIS
 
