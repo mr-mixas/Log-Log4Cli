@@ -7,7 +7,7 @@ use parent qw(Exporter);
 
 use Term::ANSIColor qw(colored);
 
-our $VERSION = '0.16'; # Don't forget to change in pod below
+our $VERSION = '0.17'; # Don't forget to change in pod below
 
 our @EXPORT = qw(
     die_fatal
@@ -84,11 +84,11 @@ __END__
 
 =head1 NAME
 
-Log::Log4Cli -- Lightweight perl logger for command line tools
+Log::Log4Cli -- Lightweight logger for command line tools
 
 =head1 VERSION
 
-Version 0.16
+Version 0.17
 
 =head1 SYNOPSIS
 
@@ -112,6 +112,12 @@ Version 0.16
 
     die_info 'All done', 0                    # args optional
 
+=head1 DESCRIPTION
+
+The goal for this module is to provide suffucient (but user friendly) logging facilities
+for command line tools with minimal impact on performance, without non-core dependencies
+and minimal initial configuration.
+
 =head1 EXPORT
 
 All subroutines described below are exported by default.
@@ -134,7 +140,7 @@ if you want to disable colors.
 
 =head2 log_fd
 
-Get/Set file descriptor for log messages. C<STDERR> is used by default.
+Get/set file descriptor for log messages. C<STDERR> is used by default.
 
 =head1 LOG LEVELS
 
@@ -152,6 +158,8 @@ Only builtin loglevels supported. Here they are:
 Colors may be changed, see L</SYNOPSIS>.
 
 =head1 SEE ALSO
+
+L<Log::Dispatch|Log::Dispatch>, L<Log::Log4perl|Log::Log4perl>
 
 L<Term::ANSIColor|Term::ANSIColor>
 
