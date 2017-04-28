@@ -45,7 +45,7 @@ sub _die($$$$) {
         die defined $_[3] ? "$_[3]. " : "";
     } else {
         print $FD $_[2] . (defined $_[3] ? "$_[3]. " : "") .
-            "Exit $_[0], ET ", (time - $^T), "s\n" if ($_[1]);
+            "Exit $_[0], ET " . (time - $^T) . "s\n" if ($_[1]);
         exit $_[0];
     }
 }
@@ -62,13 +62,13 @@ sub die_fatal(;$;$)  { _die $_[1] || 127, $LEVEL > -2, _pfx('FATAL'),  $_[0] }
 sub die_notice(;$;$) { _die $_[1] || 0,   $LEVEL > -1, _pfx('NOTICE'), $_[0] }
 sub die_info(;$;$)   { _die $_[1] || 0,   $LEVEL >  1, _pfx('INFO'),   $_[0] }
 
-sub log_fatal(&)  { print $FD _pfx('FATAL'),  $_[0]->($_), "\n" if $LEVEL > -2 }
-sub log_error(&)  { print $FD _pfx('ERROR'),  $_[0]->($_), "\n" if $LEVEL > -1 }
-sub log_notice(&) { print $FD _pfx('NOTICE'), $_[0]->($_), "\n" if $LEVEL > -1 }
-sub log_warn(&)   { print $FD _pfx('WARN'),   $_[0]->($_), "\n" if $LEVEL >  0 }
-sub log_info(&)   { print $FD _pfx('INFO'),   $_[0]->($_), "\n" if $LEVEL >  1 }
-sub log_debug(&)  { print $FD _pfx('DEBUG'),  $_[0]->($_), "\n" if $LEVEL >  2 }
-sub log_trace(&)  { print $FD _pfx('TRACE'),  $_[0]->($_), "\n" if $LEVEL >  3 }
+sub log_fatal(&)  { print $FD _pfx('FATAL')  . $_[0]->($_) . "\n" if $LEVEL > -2 }
+sub log_error(&)  { print $FD _pfx('ERROR')  . $_[0]->($_) . "\n" if $LEVEL > -1 }
+sub log_notice(&) { print $FD _pfx('NOTICE') . $_[0]->($_) . "\n" if $LEVEL > -1 }
+sub log_warn(&)   { print $FD _pfx('WARN')   . $_[0]->($_) . "\n" if $LEVEL >  0 }
+sub log_info(&)   { print $FD _pfx('INFO')   . $_[0]->($_) . "\n" if $LEVEL >  1 }
+sub log_debug(&)  { print $FD _pfx('DEBUG')  . $_[0]->($_) . "\n" if $LEVEL >  2 }
+sub log_trace(&)  { print $FD _pfx('TRACE')  . $_[0]->($_) . "\n" if $LEVEL >  3 }
 
 sub log_fd(;$) {
     if (@_) {
