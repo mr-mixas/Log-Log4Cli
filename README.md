@@ -1,10 +1,10 @@
 # NAME
 
-Log::Log4Cli -- Lightweight perl logger for command line tools
+Log::Log4Cli -- Lightweight logger for command line tools
 
 # VERSION
 
-Version 0.16
+Version 0.17
 
 # SYNOPSIS
 
@@ -28,6 +28,12 @@ Version 0.16
 
     die_info 'All done', 0                    # args optional
 
+# DESCRIPTION
+
+The goal for this module is to provide suffucient (but user friendly) logging facilities
+for command line tools with minimal impact on performance, minimal configuration and
+without non-core dependencies.
+
 # EXPORT
 
 All subroutines described below are exported by default.
@@ -50,7 +56,7 @@ if you want to disable colors.
 
 ## log\_fd
 
-Get/Set file descriptor for log messages. `STDERR` is used by default.
+Get/set file descriptor for log messages. `STDERR` is used by default.
 
 # LOG LEVELS
 
@@ -68,6 +74,8 @@ Only builtin loglevels supported. Here they are:
 Colors may be changed, see ["SYNOPSIS"](#synopsis).
 
 # SEE ALSO
+
+[Log::Dispatch](https://metacpan.org/pod/Log::Dispatch), [Log::Log4perl](https://metacpan.org/pod/Log::Log4perl)
 
 [Term::ANSIColor](https://metacpan.org/pod/Term::ANSIColor)
 

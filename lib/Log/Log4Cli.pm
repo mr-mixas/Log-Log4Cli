@@ -115,8 +115,8 @@ Version 0.17
 =head1 DESCRIPTION
 
 The goal for this module is to provide suffucient (but user friendly) logging facilities
-for command line tools with minimal impact on performance, without non-core dependencies
-and minimal initial configuration.
+for command line tools with minimal impact on performance, minimal configuration and
+without non-core dependencies.
 
 =head1 EXPORT
 

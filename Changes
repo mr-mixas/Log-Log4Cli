@@ -1,5 +1,9 @@
 Revision history for Log-Log4Cli
 
+0.17    2017-05-01
+        docs improved
+        refactoring
+
 0.16    2017-04-14
         use die if die_* invoked in eval block
 
