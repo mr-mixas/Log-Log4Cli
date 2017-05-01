@@ -44,15 +44,16 @@ All subroutines described below are exported by default.
 
     die_fatal "Something terrible happened", 8;
 
-Log message and die with provided exid code. All arguments are optional. If second arg (exit code) omitted
-die\_info, die\_notice and die\_fatal will use 0, 0 and 127 respectively.
+Log message and exit with provided code. All arguments are optional. If second arg
+(exit code) omitted die\_info, die\_notice and die\_fatal will exit with 0, 0 and 127
+respectively.
 
 ## log\_fatal, log\_error, log\_notice, log\_warn, log\_info, log\_debug, log\_trace
 
     log_error { "Something went wrong!" };
 
-Execute passed code block and write it's return value if loglevel permit so. Set `$Log::Log4Cli::COLOR` to false value
-if you want to disable colors.
+Execute passed code block and write it's return value if loglevel permit so. Set
+`$Log::Log4Cli::COLOR` to false value to disable colors.
 
 ## log\_fd
 
