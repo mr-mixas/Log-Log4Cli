@@ -7,7 +7,7 @@ use parent qw(Exporter);
 
 use Term::ANSIColor qw(colored);
 
-our $VERSION = '0.17'; # Don't forget to change in pod below
+our $VERSION = '0.18'; # Don't forget to change in pod below
 
 our @EXPORT = qw(
     die_fatal
@@ -34,6 +34,7 @@ our $COLORS = {
     DEBUG  => 'blue',
     TRACE  => 'magenta'
 };
+
 our $LEVEL = 0;
 our $POSITIONS = undef;
 my $FD = \*STDERR;       # descriptor
@@ -88,11 +89,11 @@ Log::Log4Cli -- Lightweight logger for command line tools
 
 =head1 VERSION
 
-Version 0.17
+Version 0.18
 
 =head1 SYNOPSIS
 
-    Log::Log4Cli;
+    use Log::Log4Cli;
 
     $Log::Log4Cli::COLORS->{DEBUG} = 'green'; # redefine color (Term::ANSIColor notation)
     $Log::Log4Cli::LEVEL = 4;                 # set loglevel
@@ -105,18 +106,17 @@ Version 0.17
     $Log::Log4Cli::COLOR = 0;                 # now colors disabled
 
     my $guts = { some => "value" };
-    log_trace {                               # block will be called only when TRACE level enabled
+    log_trace {                               # block executed when appropriate level enabled only
         require Data::Dumper;
         return "Guts:\n" . Data::Dumper->Dump([$guts]);
     };
 
-    die_info 'All done', 0                    # args optional
+    die_info 'All done', 0;
 
 =head1 DESCRIPTION
 
-The goal for this module is to provide suffucient (but user friendly) logging facilities
-for command line tools with minimal impact on performance, minimal configuration and
-without non-core dependencies.
+Lightweight, but sufficient and user friendly logging for command line tools with
+minimal impact on performance, no configuration and no non-core dependencies.
 
 =head1 EXPORT
 
@@ -145,7 +145,7 @@ Get/set file descriptor for log messages. C<STDERR> is used by default.
 
 =head1 LOG LEVELS
 
-Only builtin loglevels supported. Here they are:
+Only builtin loglevels supported:
 
     # LEVEL     VALUE   COLOR
     FATAL       -1      'bold red',
@@ -156,7 +156,7 @@ Only builtin loglevels supported. Here they are:
     DEBUG        3      'blue',
     TRACE        4      'magenta'
 
-Colors may be changed, see L</SYNOPSIS>.
+Colors may be changed, see L</SYNOPSIS>. Default loglevel is C<ERROR> (0).
 
 =head1 SEE ALSO
 

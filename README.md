@@ -4,11 +4,11 @@ Log::Log4Cli -- Lightweight logger for command line tools
 
 # VERSION
 
-Version 0.17
+Version 0.18
 
 # SYNOPSIS
 
-    Log::Log4Cli;
+    use Log::Log4Cli;
 
     $Log::Log4Cli::COLORS->{DEBUG} = 'green'; # redefine color (Term::ANSIColor notation)
     $Log::Log4Cli::LEVEL = 4;                 # set loglevel
@@ -21,18 +21,17 @@ Version 0.17
     $Log::Log4Cli::COLOR = 0;                 # now colors disabled
 
     my $guts = { some => "value" };
-    log_trace {                               # block will be called only when TRACE level enabled
+    log_trace {                               # block executed when appropriate level enabled only
         require Data::Dumper;
         return "Guts:\n" . Data::Dumper->Dump([$guts]);
     };
 
-    die_info 'All done', 0                    # args optional
+    die_info 'All done', 0;
 
 # DESCRIPTION
 
-The goal for this module is to provide suffucient (but user friendly) logging facilities
-for command line tools with minimal impact on performance, minimal configuration and
-without non-core dependencies.
+Lightweight, but sufficient and user friendly logging for command line tools with
+minimal impact on performance, no configuration and no non-core dependencies.
 
 # EXPORT
 
@@ -61,7 +60,7 @@ Get/set file descriptor for log messages. `STDERR` is used by default.
 
 # LOG LEVELS
 
-Only builtin loglevels supported. Here they are:
+Only builtin loglevels supported:
 
     # LEVEL     VALUE   COLOR
     FATAL       -1      'bold red',
@@ -72,7 +71,7 @@ Only builtin loglevels supported. Here they are:
     DEBUG        3      'blue',
     TRACE        4      'magenta'
 
-Colors may be changed, see ["SYNOPSIS"](#synopsis).
+Colors may be changed, see ["SYNOPSIS"](#synopsis). Default loglevel is `ERROR` (0).
 
 # SEE ALSO
 
