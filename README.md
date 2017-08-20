@@ -39,20 +39,21 @@ All subroutines described below are exported by default.
 
 # SUBROUTINES
 
-## die\_fatal, die\_info, die\_notice
+## die\_fatal, die\_alert, die\_notice, die\_info
 
     die_fatal "Something terrible happened", 8;
 
 Log message and exit with provided code. All arguments are optional. If second arg
-(exit code) omitted die\_info, die\_notice and die\_fatal will exit with 0, 0 and 127
-respectively.
+(exit code) omitted die\_fatal, die\_alert and die\_info will exit with 127, 0 and 0
+respectively. `die_notice` is deprecated and will be removed in future releases.
 
-## log\_fatal, log\_error, log\_notice, log\_warn, log\_info, log\_debug, log\_trace
+## log\_fatal, log\_error, log\_alert, log\_notice, log\_warn, log\_info, log\_debug, log\_trace
 
     log_error { "Something went wrong!" };
 
 Execute passed code block and write it's return value if loglevel permit so. Set
-`$Log::Log4Cli::COLOR` to false value to disable colors.
+`$Log::Log4Cli::COLOR` to false value to disable colors. `log_notice` is
+deprecated and will be removed in future releases.
 
 ## log\_fd
 
@@ -62,10 +63,9 @@ Get/set file descriptor for log messages. `STDERR` is used by default.
 
 Only builtin loglevels supported:
 
-    # LEVEL     VALUE   COLOR
     FATAL       -1      'bold red',
     ERROR        0      'red',
-    NOTICE       0      'bold white',
+    ALERT        0      'bold yellow',
     WARN         1      'yellow',
     INFO         2      'cyan',
     DEBUG        3      'blue',
