@@ -2,9 +2,13 @@
 
 Log::Log4Cli -- Lightweight logger for command line tools
 
+<a href="https://travis-ci.org/mr-mixas/Log-Log4Cli.pm"><img src="https://travis-ci.org/mr-mixas/Log-Log4Cli.pm.svg?branch=master" alt="CI"></a>
+<a href='https://coveralls.io/github/mr-mixas/Log-Log4Cli.pm?branch=master'><img src='https://coveralls.io/repos/github/mr-mixas/Log-Log4Cli.pm/badge.svg?branch=master' alt='Coverage Status'></a>
+<a href="https://badge.fury.io/pl/Log-Log4Cli"><img src="https://badge.fury.io/pl/Log-Log4Cli.svg" alt="CPAN version"></a>
+
 # VERSION
 
-Version 0.18
+Version 0.19
 
 # SYNOPSIS
 
