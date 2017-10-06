@@ -5,6 +5,7 @@ use strict;
 use warnings;
 use parent qw(Exporter);
 
+use Carp qw(croak);
 use Term::ANSIColor qw(colored);
 
 our $VERSION = '0.19'; # Don't forget to change in pod below
@@ -46,7 +47,7 @@ our $COLOR = -t $FD;     # color on/off switcher
 sub _die($$$$) {
     if ($^S) {
         # inside eval block
-        die defined $_[3] ? "$_[3]. " : "";
+        croak defined $_[3] ? "$_[3]" : "Died";
     } else {
         print $FD $_[2] . (defined $_[3] ? "$_[3]. " : "") .
             "Exit $_[0], ET " . (time - $^T) . "s\n" if ($_[1]);
