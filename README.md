@@ -8,7 +8,7 @@ Log::Log4Cli -- Lightweight logger for command line tools
 
 # VERSION
 
-Version 0.19
+Version 0.20
 
 # SYNOPSIS
 
@@ -47,9 +47,11 @@ All subroutines described below are exported by default.
 
     die_fatal "Something terrible happened", 8;
 
-Log message and exit with provided code. All arguments are optional. If second arg
-(exit code) omitted die\_fatal, die\_alert and die\_info will exit with 127, 0 and 0
-respectively. `die_notice` is deprecated and will be removed in future releases.
+Log message and exit with provided code. In eval blocks `Carp::croak` used
+instead of exit and exit code stored in `$Log::Log4Cli::STATUS`. All
+arguments are optional. If second arg (exit code) omitted die\_fatal, die\_alert
+and die\_info will exit with 127, 0 and 0 respectively. `die_notice` is
+deprecated and will be removed in future releases.
 
 ## log\_fatal, log\_error, log\_alert, log\_notice, log\_warn, log\_info, log\_debug, log\_trace
 
