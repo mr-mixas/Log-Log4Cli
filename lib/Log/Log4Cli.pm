@@ -49,9 +49,10 @@ $COLORS->{NOTICE} = $COLORS->{ALERT}; # Deprecated
 
 our $LEVEL = 0;
 our $POSITIONS = undef;
-my $FD = \*STDERR;       # descriptor
-our $COLOR = -t $FD;     # color on/off switcher
+our $COLOR;              # color on/off switcher; defined below
 our $STATUS = undef;     # exit code
+
+my $FD;                  # descriptor to write messages; defined below
 
 sub _die($$$$) {
     if ($^S) {
@@ -94,6 +95,8 @@ sub log_fd(;$) {
     }
     return $FD;
 }
+
+log_fd(\*STDERR);
 
 1;
 
