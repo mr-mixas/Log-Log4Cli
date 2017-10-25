@@ -1,22 +1,51 @@
-#!perl
+#!perl -T
+
 use 5.006;
 use strict;
 use warnings FATAL => 'all';
 
-use Capture::Tiny qw(capture);
+my $LAST_EXIT;
+
+BEGIN {
+    *CORE::GLOBAL::exit = sub {
+        $LAST_EXIT = $_[0];
+    };
+};
+
 use Log::Log4Cli;
 use Test::More;
 
-$Log::Log4Cli::LEVEL = 4;
+open(OLDERR, ">&STDERR"); # save stderr
+close(STDERR);
 
-for my $lvl_name (qw(FATAL INFO NOTICE)) {
+for my $sub (\&die_alert, \&die_fatal, \&die_info) {
     for my $status (0, 7) {
-        my $text = 'use Log::Log4Cli; die_' . lc($lvl_name) . " undef, $status";
-        my ($out, $err, $exit) = capture { system ($^X, '-e', "$text") };
-        my $exp = ($lvl_name eq 'FATAL' and $status == 0) ? 127 : $status;
-        is(($exit >> 8), $exp, "die $lvl_name status check ($status)")
+        for my $message (undef, 'message') {
+            my $stderr;
+            open(STDERR,'>', \$stderr) or die $!;
+
+            $sub->($message, $status);
+
+            if ($sub != \&die_info) {
+                like($stderr, qr/] .*Exit/);
+            } else {
+                is($stderr, undef);
+            }
+
+            is(
+                $LAST_EXIT,
+                ($sub == \&die_fatal and $status == 0) ? 127 : $status
+            );
+
+            close(STDERR);
+        }
     }
 }
+
+open(STDERR, ">&OLDERR"); # r4estoire stderr
+close(OLDERR);
+
+$Log::Log4Cli::LEVEL = 4;
 
 eval { die_fatal "evaled die_fatal test" };
 like($@, qr/^evaled die_fatal test/);
