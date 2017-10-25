@@ -15,30 +15,29 @@ BEGIN {
 use Log::Log4Cli;
 use Test::More;
 
-sub capture(&) { # can't use Capture::Tiny here - it evals code (see $^S in Log::Log4Cli)
-    my $stderr;
+sub get_logged(&) {
+    my $logged;
 
-    open(OLDERR, ">&STDERR"); # save stderr
-    close(STDERR);
-    open(STDERR,'>', \$stderr) or die $!;
+    no warnings 'uninitialized'; # perl 5.8 fails with 'Use of uninitialized value in open'
+    open(LOGGED,'>', \$logged) or die $!;
+    log_fd(\*LOGGED);
 
     $_[0]->();
 
-    open(STDERR, ">&OLDERR"); # restore stderr
-    close(OLDERR);
+    close(LOGGED);
 
-    return $stderr;
+    return $logged;
 }
 
 for my $sub (\&die_alert, \&die_fatal, \&die_info) {
     for my $status (0, 7) {
         for my $message (undef, 'message') {
-            my $stderr = capture { $sub->($message, $status) };
+            my $logged = get_logged { $sub->($message, $status) };
 
             if ($sub != \&die_info) {
-                like($stderr, qr/] .*Exit/);
+                like($logged, qr/] .*Exit/);
             } else {
-                is($stderr, undef);
+                is($logged, undef);
             }
 
             is(
@@ -49,17 +48,17 @@ for my $sub (\&die_alert, \&die_fatal, \&die_info) {
     }
 }
 
-my $stderr = capture { die };
+my $logged = get_logged { die };
 is($LAST_EXIT, 255);
-like($stderr, qr| FATAL] Died at t/50-die\.t line \d+\. Exit 255, ET |);
+like($logged, qr| FATAL] Died at t/50-die\.t line \d+\. Exit 255, ET |);
 
-$stderr = capture { die undef, undef };
+$logged = get_logged { die undef, undef };
 is($LAST_EXIT, 255);
-like($stderr, qr| FATAL] Died at t/50-die\.t line \d+\. Exit 255, ET |);
+like($logged, qr| FATAL] Died at t/50-die\.t line \d+\. Exit 255, ET |);
 
-$stderr = capture { die "die", "with", "message" };
+$logged = get_logged { die "die", "with", "message" };
 is($LAST_EXIT, 255);
-like($stderr, qr| FATAL] die with message at t/50-die\.t line \d+\. Exit 255, ET |);
+like($logged, qr| FATAL] die with message at t/50-die\.t line \d+\. Exit 255, ET |);
 
 $Log::Log4Cli::LEVEL = 4;
 
