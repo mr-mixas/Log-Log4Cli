@@ -8,6 +8,14 @@ use parent qw(Exporter);
 use Carp qw(croak);
 use Term::ANSIColor qw(colored);
 
+BEGIN {
+    *CORE::GLOBAL::die = sub {
+        my $msg = join(' ', grep { defined } @_) || "Died";
+        $msg .= " at " . join(' line ', (caller)[1,2]);
+        &die_fatal($msg, 255);
+    };
+}
+
 our $VERSION = '0.20'; # Don't forget to change in pod below
 
 our @EXPORT = qw(
