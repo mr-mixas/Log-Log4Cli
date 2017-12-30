@@ -5,6 +5,7 @@ use strict;
 use warnings;
 use parent qw(Exporter);
 
+use Carp qw(croak);
 use Term::ANSIColor qw(colored);
 
 BEGIN {
@@ -54,8 +55,7 @@ sub _die($$$) {
     if ($^S) {
         # inside eval block
         $STATUS = $_[0];
-        require Carp;
-        Carp::croak defined $_[2] ? "$_[2]" : "Died";
+        croak defined $_[2] ? "$_[2]" : "Died";
     } else {
         print $FD $_[1] . (defined $_[2] ? "$_[2]. " : "") .
             "Exit $_[0], ET " . (time - $^T) . "s\n" if ($_[1]);
