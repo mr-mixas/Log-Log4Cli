@@ -70,10 +70,6 @@ eval { die_info "evaled die_info test" };
 is($Log::Log4Cli::STATUS, 0);
 like($@, qr/^evaled die_info test/);
 
-eval { die_notice "evaled die_notice test" };
-is($Log::Log4Cli::STATUS, 0);
-like($@, qr#^evaled die_notice test at t/50-die.t#);
-
 $Log::Log4Cli::LEVEL = 0;
 
 eval { die_fatal undef, 42 };
@@ -82,10 +78,6 @@ like($@, qr#^Died at t/50-die.t#);
 
 eval { die_info undef, 43 };
 is($Log::Log4Cli::STATUS, 43);
-like($@, qr/^Died at/);
-
-eval { die_notice undef, 44 };
-is($Log::Log4Cli::STATUS, 44);
 like($@, qr/^Died at/);
 
 done_testing();

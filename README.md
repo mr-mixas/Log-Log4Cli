@@ -43,23 +43,21 @@ All subroutines described below are exported by default.
 
 # SUBROUTINES
 
-## die\_fatal, die\_alert, die\_notice, die\_info
+## die\_fatal, die\_alert, die\_info
 
     die_fatal "Something terrible happened", 8;
 
 Log message and exit with provided code. In eval blocks `Carp::croak` used
 instead of exit and exit code stored in `$Log::Log4Cli::STATUS`. All
 arguments are optional. If second arg (exit code) omitted die\_fatal, die\_alert
-and die\_info will exit with 127, 0 and 0 respectively. `die_notice` is
-deprecated and will be removed in future releases.
+and die\_info will exit with 127, 0 and 0 respectively.
 
-## log\_fatal, log\_error, log\_alert, log\_notice, log\_warn, log\_info, log\_debug, log\_trace
+## log\_fatal, log\_error, log\_alert, log\_warn, log\_info, log\_debug, log\_trace
 
     log_error { "Something went wrong!" };
 
 Execute passed code block and write it's return value if loglevel permit so. Set
-`$Log::Log4Cli::COLOR` to false value to disable colors. `log_notice` is
-deprecated and will be removed in future releases.
+`$Log::Log4Cli::COLOR` to false value to disable colors.
 
 ## log\_fd
 
