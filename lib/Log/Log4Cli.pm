@@ -5,7 +5,6 @@ use strict;
 use warnings;
 use parent qw(Exporter);
 
-use Carp qw(croak);
 use Term::ANSIColor qw(colored);
 
 BEGIN {
@@ -51,13 +50,14 @@ our $STATUS = undef;     # exit code
 
 my $FD;                  # descriptor to write messages; defined below
 
-sub _die($$$$) {
+sub _die($$$) {
     if ($^S) {
         # inside eval block
         $STATUS = $_[0];
-        croak defined $_[3] ? "$_[3]" : "Died";
+        require Carp;
+        Carp::croak defined $_[2] ? "$_[2]" : "Died";
     } else {
-        print $FD $_[2] . (defined $_[3] ? "$_[3]. " : "") .
+        print $FD $_[1] . (defined $_[2] ? "$_[2]. " : "") .
             "Exit $_[0], ET " . (time - $^T) . "s\n" if ($_[1]);
         exit $_[0];
     }
@@ -71,9 +71,9 @@ sub _pfx($) {
         (($POSITIONS or $LEVEL > 4) ? join(":", (caller(1))[1,2]) . " " : "");
 }
 
-sub die_fatal(;$;$) { _die $_[1] || 127, $LEVEL > -2, _pfx('FATAL'), $_[0] }
-sub die_alert(;$;$) { _die $_[1] || 0,   $LEVEL > -1, _pfx('ALERT'), $_[0] }
-sub die_info(;$;$)  { _die $_[1] || 0,   $LEVEL >  1, _pfx('INFO'),  $_[0] }
+sub die_fatal(;$;$) { _die $_[1] || 127, $LEVEL > -2 && _pfx('FATAL'), $_[0] }
+sub die_alert(;$;$) { _die $_[1] || 0,   $LEVEL > -1 && _pfx('ALERT'), $_[0] }
+sub die_info(;$;$)  { _die $_[1] || 0,   $LEVEL >  1 && _pfx('INFO'),  $_[0] }
 
 sub log_fatal(&) { print $FD _pfx('FATAL') . $_[0]->($_) . "\n" if $LEVEL > -2 }
 sub log_error(&) { print $FD _pfx('ERROR') . $_[0]->($_) . "\n" if $LEVEL > -1 }
