@@ -211,7 +211,7 @@ L<Term::ANSIColor|Term::ANSIColor>
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright 2016,2017 Michael Samoglyadov.
+Copyright 2016-2018 Michael Samoglyadov.
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of either: the GNU General Public License as published
